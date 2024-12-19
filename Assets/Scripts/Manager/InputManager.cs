@@ -17,11 +17,11 @@ public class InputManager : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject()) // 클릭이 UI 위에서 발생
             {
-                Debug.Log("UI 클릭으로 인해 무시됨");
+                //  Debug.Log("UI 클릭으로 인해 무시됨");
                 return; // UI 클릭 시 다른 처리는 하지 않음
             }
 
-            Debug.Log("Mouse Click Detected");
+            // Debug.Log("Mouse Click Detected");
 
             // Raycast 처리
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

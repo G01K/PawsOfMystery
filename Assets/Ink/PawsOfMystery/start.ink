@@ -10,25 +10,46 @@ VAR currentSpeaker = Characters.해설
 //
 LIST State = promiseCube
 
-VAR Inventory = ()  // 빈 리스트로 시작
-//LIST Hints =
 
+
+LIST Inventory = (none), foxFur, peacockFeather, GoatFootprint, Seeds
 
 === function add_item(item)
-    ~ Inventory += item  // 아이템 추가
+	{ Inventory !? item :
+         ~ Inventory += item 
+        { Inventory !? none: 
+             ~ Inventory -= none 
+        }	
+    }
 
 === function remove_item(item)
-    ~ Inventory -= item  // 아이템 제거
-    
+	{ Inventory ? item :
+         ~ Inventory -= item 
+        { LIST_COUNT(Inventory) == 1:
+            ~ Inventory += none    
+        }
+    }
+
+=== function has_item(item)
+    ~ return Inventory ? item
+
+=== function print_inventory()
+    ~ return Inventory
+
+
+EXTERNAL DisplayHint(scene)
+=== function DisplayHint(scene)
+    ~ return
     
 === start ===
-		
+
 		오후의 긴 해가 창에서 넘어와 고양이 탐정 다스를 비췄다.
     다스는 따스한 햇살 아래 졸린 눈으로 창밖을 바라보며 한가로운 시간을 보내고 있었다.  
     멀리서 족제비가 허둥지둥 달려왔다.
 
     다쭈! 여기 있었구나! 
     (숨을 몰아쉬며) 너... 정말 한가하게 앉아있구나.
+
 
     * 한가하다니 무례하네, 무슨 일인데 쭈? 
         -> ask_problem
@@ -60,6 +81,15 @@ VAR Inventory = ()  // 빈 리스트로 시작
 = ask_problem
         ~ currentSpeaker = Characters.족제비
     햄스터가 안 보여! 실종된게 분명해 
+    
+
+    ~  DisplayHint("sniff_around")
+
+//~ add_item(foxFur)
+
+
+
+
          ~ currentSpeaker = Characters.주인공
     햄스터가 누군데 쭈?
          ~ currentSpeaker = Characters.족제비

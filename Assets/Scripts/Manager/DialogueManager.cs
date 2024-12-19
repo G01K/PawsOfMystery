@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Ink.Runtime;
-using System.Text;
+
 
 public class DialogueManager : MonoBehaviour
 {
@@ -44,14 +44,61 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private Coroutine typingCoroutine;
 
-    private StringBuilder stringBuilder = new StringBuilder();
 
     void Start()
     {
-        story = new Story(inkJSONAsset.text);
-        InitializeSpeakerContainers();
+
+        init();
+        initBindFnc();
         DisplayNextLine();
 
+    }
+
+    void init()
+    {
+        /**        Debug.Log("dd");
+
+        List<Hint> hints = hintManager.GetHints("EnterForest");
+        foreach (Hint hint in hints)
+        {
+            Debug.Log($"Hint: ID = {hint.id}, Name = {hint.name}, Description = {hint.description} , imagePath = {hint.imagePath} , position = {hint.position}");
+        }
+        */
+        story = InkManager.Instance.InitializeStory(inkJSONAsset.text);
+        InitializeSpeakerContainers();
+    }
+
+    void initBindFnc()
+    {
+        // External Function 연결
+        story.BindExternalFunction("DisplayHint", (string scene) =>
+        {
+            Debug.Log("DisplayHintDisplayHintDisplayHintDisplayHint");
+
+            DisplayHint(scene);
+        });
+    }
+
+    void DisplayHint(string scene)
+    {
+        Debug.Log(scene);
+
+        if (scene == "sniff_around")
+        {
+            List<Hint> hints = HintManager.Instance.GetHints("EnterForest");
+            if (hints != null)
+            {
+                foreach (Hint hint in hints)
+                {
+                    HintManager.Instance.CreateHintObject(hint);
+                }
+            }
+
+            // dlf
+            //PauseStory();
+
+            // ToDo : 다이얼로그박스 숨기기
+        }
     }
 
     void OnEnable()
@@ -62,6 +109,16 @@ public class DialogueManager : MonoBehaviour
     void OnDisable()
     {
         InputManager.OnMouseClick -= HandleMouseClick;
+    }
+    public void PauseStory()
+    {
+        isPaused = true;
+    }
+
+    public void ResumeStory()
+    {
+        isPaused = false;
+        DisplayNextLine();
     }
 
     void HandleMouseClick()
@@ -88,18 +145,6 @@ public class DialogueManager : MonoBehaviour
             { "해설", npcContainer }
         };
     }
-
-    public void PauseStory()
-    {
-        isPaused = true;
-    }
-
-    public void ResumeStory()
-    {
-        isPaused = false;
-        DisplayNextLine();
-    }
-
     public void DisplayNextLine(string speakerName = "")
     {
         if (isPaused) return;

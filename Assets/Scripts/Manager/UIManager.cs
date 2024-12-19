@@ -21,7 +21,6 @@ public class UIManager : MonoBehaviour
     private DateTime lastResetTime;
 
     public GameObject modalPanel;
-    public ModalPanel modalPanelScript;
 
     void Start()
     {
@@ -76,7 +75,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("노트 버튼 클릭!");
         modalPanel.SetActive(true);
-        modalPanelScript.OpenModal();
+        modalPanel.GetComponent<NoteManager>().OpenModal();
     }
 
     void UpdateSniffButton()

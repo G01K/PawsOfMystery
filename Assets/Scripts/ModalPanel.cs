@@ -13,24 +13,20 @@ public class ModalPanel : MonoBehaviour
     [Header("닫기 버튼")]
     public Button closeButton;
 
-    private void Start()
-    {
+    private void Start() {
         // 닫기 버튼 초기화
-        if (closeButton != null)
-        {
+        if (closeButton != null) {
             closeButton.onClick.AddListener(CloseModal);
         }
 
         // 초기 상태: 모달 창 비활성화
-        if (modalPanel != null)
-        {
+        if (modalPanel != null) {
             modalPanel.SetActive(false);
         }
     }
 
     // 모달 창 열기
-    public void OpenModal()
-    {
+    public void OpenModal() {
         if (hintGrid.transform.childCount > 0) // 힌트 아이템이 존재할 때만 열기
         {
             modalPanel.SetActive(true);
@@ -45,19 +41,15 @@ public class ModalPanel : MonoBehaviour
     }
 
     // 모달 창 닫기
-    public void CloseModal()
-    {
-        if (modalPanel != null)
-        {
+    public void CloseModal() {
+        if (modalPanel != null) {
             modalPanel.SetActive(false);
         }
     }
 
     // 첫 번째 힌트 아이템 선택
-    private void SelectFirstHintItem()
-    {
-        if (hintGrid.transform.childCount > 0)
-        {
+    private void SelectFirstHintItem() {
+        if (hintGrid.transform.childCount > 0) {
             // 첫 번째 아이템 가져오기
             Transform firstHint = hintGrid.transform.GetChild(0);
             if (firstHint != null)
@@ -69,8 +61,7 @@ public class ModalPanel : MonoBehaviour
     }
 
     // 힌트 수집 시 설명 업데이트
-    public void AddHintToGrid(Sprite hintSprite, string hintDescription)
-    {
+    public void AddHintToGrid(Sprite hintSprite, string hintDescription) {
         // 힌트 아이템(이미지) 생성
         GameObject newHint = new GameObject("HintItem", typeof(Image));
         Image hintImage = newHint.GetComponent<Image>();
@@ -85,17 +76,14 @@ public class ModalPanel : MonoBehaviour
     }
 
     // 힌트 클릭 시 동작
-    public void OnHintItemClick(string hintDescription)
-    {
+    public void OnHintItemClick(string hintDescription) {
         // 클릭된 힌트에 해당하는 설명 표시
         ShowHintDescription("hintDescription");
     }
 
     // 설명 텍스트 업데이트
-    public void ShowHintDescription(string description)
-    {
-        if (descriptionText != null)
-        {
+    public void ShowHintDescription(string description) {
+        if (descriptionText != null) {
             descriptionText.text = description;
         }
     }

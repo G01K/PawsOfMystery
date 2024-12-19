@@ -1,0 +1,52 @@
+{
+    "hints": [
+        {
+            "id": 0,
+            "name": "씨앗더미",
+            "code": "Seeds",
+            "description": "수풀에 떨어져있다. 햄스터의 침냄새가 난다. 실종당시에 떨어틘 모양이다.",
+            "imagePath": "Hint/Images/Seeds",
+            "position": {
+                "x": -323.3275,
+                "y": 373.506
+            },
+            "trigger": "EnterForest"
+        },
+        {
+            "id": 1,
+            "name": "여우의 털",
+            "code": "foxFur",
+            "description": "sss",
+            "imagePath": "Hint/Images/FoxFur",
+            "position": {
+                "x": -13,
+                "y": 279
+            },
+            "trigger": "EnterForest"
+        },
+        {
+            "id": 2,
+            "name": "공작의 깃털",
+            "code": "peacockFeather",
+            "description": "A bright feather that seems out of place.",
+            "imagePath": "Hint/Images/PeacockFeather",
+            "position": {
+                "x": 180,
+                "y": 150
+            },
+            "trigger": "EnterForest"
+        },
+        {
+            "id": 3,
+            "name": "염소의 발자국",
+            "code": "GoatFootprint",
+            "description": "A bright feather that seems out of place.",
+            "imagePath": "Hint/Images/GoatFootprint",
+            "position": {
+                "x": 200,
+                "y": 150
+            },
+            "trigger": "EnterForest"
+        }
+    ]
+}
