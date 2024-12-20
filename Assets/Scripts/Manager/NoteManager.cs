@@ -22,6 +22,8 @@ public class NoteManager : MonoBehaviour
     [SerializeField]
     private GameObject hintPrefab;
 
+    private Hint clickedHint = null;
+
     private void Awake()
     {
         if (Instance == null)
@@ -131,12 +133,25 @@ public class NoteManager : MonoBehaviour
 
 
     // 모달 창 열기
-    public void OpenModal()
+    public void OpenModal(Hint hint = null)
     {
         if (noteEntries.Count > 0)
         {
             modalPanel.SetActive(true);
-            SelectFirstHintItem();
+
+            //힌트 획득과 동시에 열렸다면
+            if (hint != null)
+            {
+                clickedHint = hint;
+                Debug.Log("noteEntries.Count : " + noteEntries.Count);
+                Debug.Log("noteEntries.Coun : " + noteEntries[noteEntries.Count - 1].name);
+                OnHintItemClick(clickedHint);
+            }
+            else
+            {
+                SelectFirstHintItem();
+
+            }
         }
         else
         {
@@ -150,6 +165,12 @@ public class NoteManager : MonoBehaviour
         if (modalPanel != null)
         {
             modalPanel.SetActive(false);
+        }
+        if (clickedHint != null)
+        {
+            //최초 힌트 획득으로 열린 노트라면 닫으면서 스토리 진행
+            InkManager.Instance.ChoosePathString("sniff_around");
+            DialogueManager.Instance.ResumeStory();
         }
     }
 

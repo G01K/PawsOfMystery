@@ -29,7 +29,10 @@ public class DialogueManager : MonoBehaviour
 
     [Header("화자 컨테이너 매핑")]
     public Dictionary<string, GameObject> speakerContainers;
+
     [Header("화자 컨테이너")]
+    [SerializeField] private GameObject dialogBox;
+
     [SerializeField] private GameObject heroContainer;
     [SerializeField] private GameObject npcContainer;
 
@@ -95,7 +98,7 @@ public class DialogueManager : MonoBehaviour
             }
 
             // dlf
-            //PauseStory();
+            PauseStory();
 
             // ToDo : 다이얼로그박스 숨기기
         }
@@ -112,11 +115,13 @@ public class DialogueManager : MonoBehaviour
     }
     public void PauseStory()
     {
+        dialogBox.SetActive(false);
         isPaused = true;
     }
 
     public void ResumeStory()
     {
+        dialogBox.SetActive(true);
         isPaused = false;
         DisplayNextLine();
     }
@@ -269,7 +274,8 @@ public class DialogueManager : MonoBehaviour
 
         foreach (Choice choice in story.currentChoices)
         {
-            CreateChoice(choice.text, () => OnChoiceSelected(choice));
+            //테스트코드
+            if (!"G1".Equals(choice.text)) CreateChoice(choice.text, () => OnChoiceSelected(choice));
         }
     }
 

@@ -1,4 +1,4 @@
-=== goto_forest ===
+=== goto_forest
 ~ currentSpeaker = Characters.해설
 족제비가 다스를 데려다 준 곳은 수풀이 우거진 산 아래의 작은 숲이었다.
 ~ currentSpeaker = Characters.족제비
@@ -16,12 +16,33 @@
     -> ask_weasel
 
 === sniff_around ===
+
 ~ currentSpeaker = Characters.해설
-다스는 코를 킁킁거리며 주변 냄새를 탐지하기 시작했다.
+{ found == 0 : 
+    다스는 코를 킁킁거리며 주변 냄새를 탐지하기 시작했다.
+} 
 
-~  DisplayHint("sniff_around")
+VAR foundFoxFur = 0
 
 
+//힌트가 없는 최초 진입일 때
+{ LIST_COUNT(Inventory) == 1 && Inventory ? none :
+    {DisplayHint("sniff_around")}
+}
+
+- (found)
+
+                            
+* { Inventory ? foxFur && foundFoxFur == 0} 수집한 증거를 확인한다.
+    ~ foundFoxFur = 1
+    -> get_hintFoxFur
+* { Inventory ? foxFur && foundFoxFur == 1} 여우의 방으로간다.
+    -> goto_foxRoom
+* G1
+    -> found
+     
+
+/*
 +  여우의 털을 발견했다.
     -> get_hintFoxFur
 + 공작의 깃털을 발견했다.
@@ -33,11 +54,14 @@
 + 의미 없는 냄새 오브제 1을 발견했다.
     ~ currentSpeaker = Characters.주인공
     (킁킁... 이건 사건과 관련 없는 것 같쭈. 패스하자.)
-    -> sniff_around
+    
+*/
 
--> choose_home
 
-=== ask_weasel ===
+-> found
+
+
+=== ask_weasel
 ~ currentSpeaker = Characters.해설
 다스는 족제비에게 물었다.
 ~ currentSpeaker = Characters.주인공
@@ -50,7 +74,7 @@
 
 -> sniff_around
 
-=== get_hintSeeds ===
+= get_hintSeeds
 ~ currentSpeaker = Characters.해설
 다스는 씨앗 더미에서 햄스터의 냄새를 맡았다.
 ~ currentSpeaker = Characters.주인공
@@ -60,15 +84,19 @@
 누군가에게 납치당해서 다급했던 걸까?
 ~ currentSpeaker = Characters.주인공
 이 근처에서 사건이 일어났나 보군.
-
 -> sniff_around
 
-=== get_hintFoxFur ===
+
+=== get_hintFoxFur
 ~ currentSpeaker = Characters.해설
 다스는 여우의 털을 발견했다.
--> goto_foxRoom
+~ currentSpeaker = Characters.주인공
+이게머지
+~ currentSpeaker = Characters.족제비
+여우의 집으로가자!
+    -> sniff_around
 
-=== get_hintPeacock ===
+= get_hintPeacock
 ~ currentSpeaker = Characters.해설
 다스는 공작의 깃털을 발견했다.
 -> goto_peacockRoom

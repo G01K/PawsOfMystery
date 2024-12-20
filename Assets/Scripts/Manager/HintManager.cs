@@ -15,6 +15,8 @@ public class HintManager : MonoBehaviour
     [SerializeField]
     private GameObject hintContainer; // OK: 인스펙터에 보임
 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -98,7 +100,8 @@ public class HintManager : MonoBehaviour
 
         // 노트에 추가 후 열기
         NoteManager.Instance.AddHintToNote(hint);
-        NoteManager.Instance.OpenModal();
+
+        NoteManager.Instance.OpenModal(hint);
 
         // 필드에서 수집한 힌트 지우기
         Destroy(hint.hintObject);
@@ -108,6 +111,7 @@ public class HintManager : MonoBehaviour
         {
             onClickCallback.Invoke(hint); // 콜백 함수 실행
         }
+
     }
 
     public Hint GetHint(int id)

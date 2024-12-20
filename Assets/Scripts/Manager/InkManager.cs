@@ -140,6 +140,11 @@ public class InkManager
             throw new Exception($"Variable '{variableName}' is not a list.");
         }
     }
+    // 스토리 이동
+    public void ChoosePathString(string path)
+    {
+        story.ChoosePathString(path);
+    }
 
     public void AddItemToInventory(string item)
     {

@@ -11,23 +11,16 @@ VAR currentSpeaker = Characters.해설
 LIST State = promiseCube
 
 
-
 LIST Inventory = (none), foxFur, peacockFeather, GoatFootprint, Seeds
 
 === function add_item(item)
 	{ Inventory !? item :
          ~ Inventory += item 
-        { Inventory !? none: 
-             ~ Inventory -= none 
-        }	
     }
 
 === function remove_item(item)
 	{ Inventory ? item :
          ~ Inventory -= item 
-        { LIST_COUNT(Inventory) == 1:
-            ~ Inventory += none    
-        }
     }
 
 === function has_item(item)
@@ -40,7 +33,9 @@ LIST Inventory = (none), foxFur, peacockFeather, GoatFootprint, Seeds
 EXTERNAL DisplayHint(scene)
 === function DisplayHint(scene)
     ~ return
-    
+
+
+
 === start ===
 
 		오후의 긴 해가 창에서 넘어와 고양이 탐정 다스를 비췄다.
@@ -50,9 +45,11 @@ EXTERNAL DisplayHint(scene)
     다쭈! 여기 있었구나! 
     (숨을 몰아쉬며) 너... 정말 한가하게 앉아있구나.
 
-
+    * 테스트 푱
+        -> sniff_around
     * 한가하다니 무례하네, 무슨 일인데 쭈? 
         -> ask_problem
+
 
         
 = refuse_help
@@ -75,7 +72,7 @@ EXTERNAL DisplayHint(scene)
 		BAD ENDING: 다스는 끝내 그날의 사건을 알지 못했다...
     
     //BAD ENDING "다스는 끝내 그날의 사건을 알지 못했다..."
--> done
+-> END
 
 
 = ask_problem
@@ -83,7 +80,7 @@ EXTERNAL DisplayHint(scene)
     햄스터가 안 보여! 실종된게 분명해 
     
 
-    ~  DisplayHint("sniff_around")
+ //   ~  DisplayHint("sniff_around")
 
 //~ add_item(foxFur)
 
@@ -166,8 +163,5 @@ EXTERNAL DisplayHint(scene)
         -> goto_forest
 
 
-
-- (done)
--> END
 
 -> goto_forest

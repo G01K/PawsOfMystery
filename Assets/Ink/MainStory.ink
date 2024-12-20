@@ -8,4 +8,7 @@ INCLUDE PawsOfMystery/goto_peacockRoom.ink
 INCLUDE PawsOfMystery/goto_goatRoom.ink
 INCLUDE PawsOfMystery/gather_hints.ink
 
+
+
 -> start
+
