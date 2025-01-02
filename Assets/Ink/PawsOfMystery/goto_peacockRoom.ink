@@ -1,4 +1,6 @@
 === goto_peacockRoom ===
+~ foundPeacockFeather += 1
+
 ~ currentSpeaker = Characters.해설
 족제비는 다스를 데리고 공작의 집으로 향했다.
 ~ currentSpeaker = Characters.족제비
@@ -26,20 +28,27 @@
 
 -> afterTalkPeacock
 
-=== afterTalkPeacock ===
-~ currentSpeaker = Characters.해설
-다스는 공작과 대화를 나누며 방을 조사하기 시작했다.
+-(afterTalkPeacock)
+{ afterTalkPeacock == 1 :
+    ~ currentSpeaker = Characters.해설
+    다스는 공작과 대화를 나누며 방을 조사하기 시작했다.
+    ~ currentSpeaker = Characters.해설
+    냄새를 맡아보자
+}
+{ StartButtonAnimation() }
 
-* 공작의 책상 위에서 참새와의 대화 기록을 조사한다.  
+* [공작의 책상 위에서 참새와의 대화 기록을 조사한다.]  
     -> get_hintMassageToSparrow
-* 공작의 방 한쪽에 놓인 쇼핑 리스트 메모를 조사한다.  
+* [공작의 방 한쪽에 놓인 쇼핑 리스트 메모를 조사한다.]
     -> get_hintShoppingListMemo
-* 공작의 방 한쪽에 놓인 화려한 거울을 조사한다.  
+* [공작의 방 한쪽에 놓인 화려한 거울을 조사한다.]
     -> get_hintMyself
-* 돌아간다.  
++ [돌아간다.]
     -> choose_home
 
-=== get_hintMassageToSparrow ===
+= get_hintMassageToSparrow
+    ~ add_item(massageToSparrow)
+
 ~ currentSpeaker = Characters.해설
 책상 위에 놓인 스마트폰 화면에  
 '참새'와의 대화가 있었다.  
@@ -53,12 +62,12 @@
 ~ currentSpeaker = Characters.공작
 잠깐! 왜 남의 핸드폰을 멋대로 보는 거야?  
 
-* 시치미를 때고 못 본 척한다.  
+* [시치미를 때고 못 본 척한다.  ]
     -> ignore_phone
-* 방금 본 내용에 대해 캐묻는다.  
+* [방금 본 내용에 대해 캐묻는다.  ]
     -> confront_peacock_about_phone
 
-=== ignore_phone ===
+= ignore_phone
 ~ currentSpeaker = Characters.주인공
 이건! 이번에 새로 나온 '우주 바나나 은하 회사'의 한정판 시리즈 핸드폰인 '반짝반짝폰' 아니냐쭈?  
 아직 정식 발매도 안 되었는데 어떻게 얻은 거냐쭈?  
@@ -79,7 +88,7 @@
 
 -> afterTalkPeacock
 
-=== confront_peacock_about_phone ===
+= confront_peacock_about_phone
 ~ currentSpeaker = Characters.주인공
 공작, 아까 참새랑 나눈 대화가 좀 이상하던데쭈.  
 '웃기는 애라니까'라니... 햄스터를 두고 한 말이냐쭈?
@@ -94,7 +103,8 @@
 
 -> choose_home
 
-=== get_hintShoppingListMemo ===
+= get_hintShoppingListMemo
+    ~ add_item(shoppingListMemo)
 ~ currentSpeaker = Characters.해설
 탁자 위에는 쇼핑 리스트가 적힌 메모가 있다.  
 "향수, 깃털브러시, 깃털염색약"이라는 항목이 적혀 있다.  
@@ -118,7 +128,9 @@
 역시 여우를 진심으로 생각해주는 건 나밖에 없는 것 같네.
 -> afterTalkPeacock
 
-=== get_hintMyself ===
+= get_hintMyself
+    ~ add_item(myself)
+
 ~ currentSpeaker = Characters.해설
 방 한쪽에 놓인 거울은 지나치게 화려했다.  
 거울 앞에는 공작의 초상화가 놓여 있었고,  

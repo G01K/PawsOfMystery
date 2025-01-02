@@ -12,18 +12,18 @@
 용의자의 집에서 조사를 마치고 나왔는데,  
 의심 가는 동물이 있었어?
 
-* 여우를 의심한다.
+* [여우를 의심한다.]
     -> suspect_fox
-* 공작을 의심한다.
+* [공작을 의심한다.]
     -> suspect_peacock
-* 염소를 의심한다.
+* [염소를 의심한다.]
     -> suspect_goat
-* 햄스터를 의심한다.
+* [햄스터를 의심한다.]
     -> suspect_hamster
-* 족제비를 의심한다.
+* [족제비를 의심한다.]
     -> suspect_weasel
 
-=== suspect_fox ===
+= suspect_fox
 ~ currentSpeaker = Characters.주인공
 여우는 처음부터 너무 방어적이었다쭈.  
 그리고 현장에서 발견된 털도 여우의 것이었다쭈.
@@ -32,7 +32,7 @@
 진짜로 뭔가 숨기는 건 아닐 수도 있지 않을까?
 -> finalize_suspects
 
-=== suspect_peacock ===
+= suspect_peacock
 ~ currentSpeaker = Characters.주인공
 공작은 자신을 너무 꾸미는 데 집중한 것 같다쭈.  
 그런데도 햄스터와 관련된 단서를 꽤 숨기려는 것처럼 보였쭈.
@@ -41,7 +41,7 @@
 평소에는 정말 친절한 친구였는데...
 -> finalize_suspects
 
-=== suspect_goat ===
+= suspect_goat
 ~ currentSpeaker = Characters.주인공
 염소는 뭔가 알고 있는 게 분명하다쭈.  
 햄스터와 마지막으로 대화를 나눈 동물이기도 하고...
@@ -50,7 +50,7 @@
 햄스터를 다치게 했을 거라고는 상상이 안 돼.
 -> finalize_suspects
 
-=== suspect_hamster ===
+= suspect_hamster
 ~ currentSpeaker = Characters.주인공
 햄스터가 혹시 스스로 무언가를 감추려 했던 건 아닐까쭈?  
 단서들로 보면 햄스터 자신이 뭔가를 계획했던 것처럼 보이기도 해.
@@ -59,7 +59,7 @@
 너무 무리한 추정 아닌가?
 -> finalize_suspects
 
-=== suspect_weasel ===
+= suspect_weasel
 ~ currentSpeaker = Characters.주인공
 족제비, 너는 어떻게 생각하냐쭈?  
 너도 현장에서 나온 단서들에 뭔가 이상한 점이 보이지 않았냐쭈?
@@ -69,7 +69,7 @@
 정말 믿어주지 않는 거야?
 -> finalize_suspects
 
-=== finalize_suspects ===
+= finalize_suspects
 ~ currentSpeaker = Characters.해설
 다스는 용의자에 대한 자신의 의견을 정리하며, 다음 단계로 나아가기로 결심했다.  
 다음은 수집한 증거를 바탕으로 사건의 전말을 밝힐 차례였다.

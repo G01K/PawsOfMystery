@@ -17,7 +17,7 @@ public class NoteManager : MonoBehaviour
     public Button closeButton;
 
     // 노트에 추가된 힌트를 저장
-    private List<Hint> noteEntries;
+    public List<Hint> noteEntries;
 
     [SerializeField]
     private GameObject hintPrefab;
@@ -60,9 +60,7 @@ public class NoteManager : MonoBehaviour
             noteEntries.Add(hint);
             //잉크 동기화
 
-
             InkManager.Instance.AddItemToInventory(hint.code);
-
 
             // string Invent22ory = InkManager.Instance.GetVariable("Inventory");
             // Debug.Log("Inventory's Hand: " + Invent22ory);
@@ -78,7 +76,6 @@ public class NoteManager : MonoBehaviour
             Debug.Log($"이미 노트에 추가된 힌트: {hint.code}");
         }
     }
-
 
     // 노트 UI를 갱신하는 함수
     public void UpdateNoteUI()
@@ -144,13 +141,12 @@ public class NoteManager : MonoBehaviour
             {
                 clickedHint = hint;
                 Debug.Log("noteEntries.Count : " + noteEntries.Count);
-                Debug.Log("noteEntries.Coun : " + noteEntries[noteEntries.Count - 1].name);
+                Debug.Log("방금 수집한 힌트 : " + noteEntries[noteEntries.Count - 1].name);
                 OnHintItemClick(clickedHint);
             }
             else
             {
                 SelectFirstHintItem();
-
             }
         }
         else
@@ -168,9 +164,7 @@ public class NoteManager : MonoBehaviour
         }
         if (clickedHint != null)
         {
-            //최초 힌트 획득으로 열린 노트라면 닫으면서 스토리 진행
-            InkManager.Instance.ChoosePathString("sniff_around");
-            DialogueManager.Instance.ResumeStory();
+            HintManager.Instance.closeNoteModal(clickedHint);
         }
     }
 

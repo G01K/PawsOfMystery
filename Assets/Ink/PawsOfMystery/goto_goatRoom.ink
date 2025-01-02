@@ -1,4 +1,6 @@
 === goto_goatRoom ===
+~ foundGoatFootprint += 1
+
 ~ currentSpeaker = Characters.해설
 염소의 방은 마을에서도 동떨어진 곳에 있었다.  
 조용하고 운치 있는 집이었다.  
@@ -29,24 +31,25 @@
 
 -> afterTalkGoat
 
-=== afterTalkGoat ===
-* 집 내부를 살펴본다.  
-    -> explore_goatRoom
+-(afterTalkGoat)
+{ afterTalkGoat == 1 :
+    ~ currentSpeaker = Characters.해설
+    냄새를 맡아보자
+}
+{ StartButtonAnimation() }
 
-* 돌아간다.  
+* [찻잔을 조사한다.]
+    -> get_hintBrokenPottery
+* [동양식 다과상을 조사한다.  ]
+    -> get_hintTeaCup
+* [화로를 조사한다.  ]
+    -> get_hintBurntDiary
+* [낡은 책을 조사한다.  ]
+    -> get_hintBookWithBookmark
++ [돌아간다.  ]
     -> choose_home
 
-=== explore_goatRoom ===
-* 찻잔을 조사한다.  
-    -> get_hintBrokenPottery
-* 동양식 다과상을 조사한다.  
-    -> get_hintTeaCup
-* 화로를 조사한다.  
-    -> get_hintBurntDiary
-* 낡은 책을 조사한다.  
-    -> get_hintBookWithBookmark
-
-=== get_hintBrokenPottery ===
+= get_hintBrokenPottery
 ~ currentSpeaker = Characters.해설
 오래되었지만 잘 보존된 서양식 찻잔 세트가 있다.  
 정확히는 잘 보존되었던 것 같지만,  
@@ -68,7 +71,7 @@
 나는 괜찮으니 편하게 이야기하게나.
 -> afterTalkGoat
 
-=== get_hintTeaCup ===
+= get_hintTeaCup
 ~ currentSpeaker = Characters.해설
 동양식 다과상이 가지런히 놓여 있었다.  
 두 개의 찻잔과 미처 치우지 못한 차의 흔적이 보인다.  
@@ -80,7 +83,7 @@
 평소보다 오래 머물렀던 것도 기억이 나는군.
 -> afterTalkGoat
 
-=== get_hintBurntDiary ===
+= get_hintBurntDiary
 ~ currentSpeaker = Characters.해설
 동양식 다과상 옆 방 한쪽에 작은 화로가 놓여 있었다.  
 그 안에는 희미하게 타다 남은 재가 보인다.  
@@ -93,13 +96,13 @@
 염소는 늘 이런 식으로 자신의 생각을 정리하곤 해.
 -> afterTalkGoat
 
-=== get_hintBookWithBookmark ===
+= get_hintBookWithBookmark
 ~ currentSpeaker = Characters.해설
 손이 많이 탄 것 같은 낡은 책에 책갈피가 꽂혀 있었다.
-* 책갈피가 꽂힌 페이지를 열어본다.  
+* [책갈피가 꽂힌 페이지를 열어본다.  ]
     -> read_bookmark_page
 
-=== read_bookmark_page ===
+= read_bookmark_page
 ~ currentSpeaker = Characters.해설
 “타인의 깨달음은 누구도 대신할 수 없다.  
 스스로 비추어 보고, 스스로 깨닫지 않으면 그 앎은 헛되다.”

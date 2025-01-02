@@ -14,54 +14,81 @@
     -> sniff_around
 * 족제비에게 물어본다. 
     -> ask_weasel
-
-=== sniff_around ===
-
-~ currentSpeaker = Characters.해설
-{ found == 0 : 
-    다스는 코를 킁킁거리며 주변 냄새를 탐지하기 시작했다.
-} 
-
-VAR foundFoxFur = 0
+    
+    
+= sniff_around
+<> { Inventory ? foxFur && foundFoxFur > 0}
+<> { Inventory ? foxFur}
+<> { foundFoxFur }
 
 
-//힌트가 없는 최초 진입일 때
-{ LIST_COUNT(Inventory) == 1 && Inventory ? none :
-    {DisplayHint("sniff_around")}
+{  LIST_COUNT(Inventory) == 1 && Inventory ? none :
+        ~ currentSpeaker = Characters.해설
+        다스는 코를 킁킁거리며 주변 냄새를 탐지하기 시작했다.
+        { StartButtonAnimation() }
+        
+   - else :
+       {(foundFoxFur > 0 ||foundPeacockFeather > 0 || foundGoatFootprint  > 0  ):
+            //다른 친구네 방으로 갔다가 왔다.
+            ~ currentSpeaker = Characters.해설
+            다스는 햄스터가 사라졌던 수풀로 돌아왔다.
+            { StartButtonAnimation() }
+        - else : 
+            ~ currentSpeaker = Characters.주인공
+            이게 뭐지?
+       }
 }
 
-- (found)
-
-                            
-* { Inventory ? foxFur && foundFoxFur == 0} 수집한 증거를 확인한다.
+* { Inventory !? foxFur} [G1 여우의 털을 줍는다] //테스트
+    ~ add_item(foxFur)
+    -> goto_forest.sniff_around
+* { Inventory !? peacockFeather} [G1 공작의 깃털을 줍는다] //테스트
+    ~ add_item(peacockFeather)
+    -> goto_forest.sniff_around
+    
+    
+* { Inventory ? foxFur && foundFoxFur == 0} [수집한 증거를 확인한다.]
     ~ foundFoxFur = 1
     -> get_hintFoxFur
-* { Inventory ? foxFur && foundFoxFur == 1} 여우의 방으로간다.
-    -> goto_foxRoom
-* G1
-    -> found
-     
-
-/*
-+  여우의 털을 발견했다.
-    -> get_hintFoxFur
-+ 공작의 깃털을 발견했다.
-    -> get_hintPeacock
-+ 햄스터가 뱉어낸 씨앗을 발견했다.
-    -> get_hintSeeds
-+ 염소의 발자국을 발견했다.
-    -> get_hintFootPrint
-+ 의미 없는 냄새 오브제 1을 발견했다.
-    ~ currentSpeaker = Characters.주인공
-    (킁킁... 이건 사건과 관련 없는 것 같쭈. 패스하자.)
++ { Inventory ? foxFur && foundFoxFur > 0} [여우의 방으로간다.]
+    { foundFoxFur == 1 :
+        -> goto_foxRoom
+    - else :
+        -> goto_foxRoom.afterTalkFox
+    }
     
-*/
+    
+* { Inventory ? peacockFeather && foundPeacockFeather == 0} [수집한 증거를 확인한다.]
+    ~ foundPeacockFeather = 1
+    -> get_hintPeacock
++ { Inventory ? peacockFeather && foundPeacockFeather > 0} [공작의 방으로간다.]
+    { foundPeacockFeather == 1 :
+        -> goto_peacockRoom
+    - else :
+        -> goto_peacockRoom.afterTalkPeacock
+    }
+    
+    
+* { Inventory ? goatFootprint && foundGoatFootprint == 0} [수집한 증거를 확인한다.]
+    ~ foundGoatFootprint = 1
+    -> get_hintFootPrint
++ { Inventory ? goatFootprint && foundGoatFootprint > 0} [염소의 방으로간다.]
+    { foundGoatFootprint == 1 :
+        -> goto_goatRoom
+    - else :
+        -> goto_goatRoom.afterTalkGoat
+    }
+    
+// 1회차에는 무조건 필요함
+* G1
+-> choose_home
 
+* { Inventory ? seeds } [수집한 증거를 확인한다.]
+-> get_hintSeeds
 
--> found
-
-
-=== ask_weasel
+ 
+     
+= ask_weasel
 ~ currentSpeaker = Characters.해설
 다스는 족제비에게 물었다.
 ~ currentSpeaker = Characters.주인공
@@ -71,7 +98,6 @@ VAR foundFoxFur = 0
 다른 동물들하고 다투거나 이상한 일이 있었던 것도 아니야.
 ~ currentSpeaker = Characters.주인공
 알겠다 쭈. 냄새로 단서를 찾아보자.
-
 -> sniff_around
 
 = get_hintSeeds
@@ -84,29 +110,45 @@ VAR foundFoxFur = 0
 누군가에게 납치당해서 다급했던 걸까?
 ~ currentSpeaker = Characters.주인공
 이 근처에서 사건이 일어났나 보군.
--> sniff_around
 
+{ StartButtonAnimation() }
+-> goto_forest.sniff_around
 
-=== get_hintFoxFur
+= get_hintFoxFur
 ~ currentSpeaker = Characters.해설
 다스는 여우의 털을 발견했다.
 ~ currentSpeaker = Characters.주인공
-이게머지
+붉은 털이 있군 이게 뭔지알아?
 ~ currentSpeaker = Characters.족제비
-여우의 집으로가자!
-    -> sniff_around
+여우의 털이야! 여우의 집으로가자!
+-> sniff_around
 
 = get_hintPeacock
 ~ currentSpeaker = Characters.해설
 다스는 공작의 깃털을 발견했다.
--> goto_peacockRoom
+~ currentSpeaker = Characters.족제비
+공작의 집으로가자!
+-> sniff_around
 
-=== get_hintFootPrint ===
+= get_hintFootPrint
 ~ currentSpeaker = Characters.해설
 다스는 염소의 발자국을 발견했다.
--> goto_goatRoom
+~ currentSpeaker = Characters.족제비
+염소 집으로가자!
+-> sniff_around
+
 
 === choose_home ===
 //~ PauseStory() // Unity에서 Ink 스토리를 일시정지
+//    {(isGetAnyHintFoxRoom or isGetAnyHintPeacockRoom or isGetAnyHintGoatRoom):
 
--> gather_hints
+    + [수풀로 돌아간다.]
+    -> goto_forest.sniff_around
+
+    { LIST_COUNT(Inventory) > 1 :
+            * [결론을 낸다.]
+              -> gather_hints
+   } 
+     
+    
+  

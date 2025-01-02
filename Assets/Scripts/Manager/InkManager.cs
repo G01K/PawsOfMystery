@@ -7,6 +7,8 @@ public class InkManager
     private static InkManager _instance; // 싱글톤 인스턴스
     public Story story; // Ink 스토리 객체
 
+    public String knotName;
+
     public static InkManager Instance
     {
         get
@@ -44,6 +46,25 @@ public class InkManager
             Console.WriteLine("Ink 스토리가 이미 초기화되었습니다.");
         }
         return story;
+    }
+
+    public void initBindFnc()
+    {
+        // External Function 연결
+        story.BindExternalFunction("DisplayHint", (string scene) =>
+        {
+            Debug.Log("Ink 호출: DisplayHint");
+
+            HintManager.Instance.DisplayHint(scene);
+        });
+
+
+        story.BindExternalFunction("StartButtonAnimation", () =>
+        {
+            Debug.Log("Ink 호출: StartButtonAnimation");
+
+            UIManager.Instance.StartButtonAnimation();
+        });
     }
 
     // Ink 스토리에서 다음 줄 가져오기
@@ -96,6 +117,32 @@ public class InkManager
         throw new Exception($"변수 {variableName}를 찾을 수 없습니다.");
     }
 
+    public string GetKnotName()
+    {
+        string currentNode = story.state.currentPathString;
+        Debug.Log("현재 currentNode 이름: " + currentNode);
+
+        if (!string.IsNullOrEmpty(currentNode))
+        {
+            string[] pathParts = currentNode.Split('.');
+            string knotName = pathParts[0];
+            Debug.Log("현재 노드 이름: " + knotName);
+
+            if (!string.IsNullOrEmpty(knotName)) this.knotName = knotName;
+        }
+
+        if (!story.canContinue && story.currentChoices.Count == 0)
+        {
+            Debug.Log("스토리가 끝났습니다.");
+        }
+
+        if (story.currentChoices.Count > 0)
+        {
+            Debug.Log("스토리가 선택 대기 상태입니다.");
+        }
+        return this.knotName;
+
+    }
 
     public List<string> GetVariableAsList(string variableName)
     {
@@ -153,8 +200,12 @@ public class InkManager
             try
             {
                 // 현재 Inventory 상태 가져오기
+                var inventoryForDebug = story.variablesState.GetVariableWithName("Inventory");
+                Debug.Log($"inventoryForDebug {inventoryForDebug}");
+
                 var inventory = story.variablesState["Inventory"] as Ink.Runtime.InkList;
 
+                Debug.Log($"inventory {inventory}");
                 if (inventory == null)
                 {
                     // Inventory 초기화

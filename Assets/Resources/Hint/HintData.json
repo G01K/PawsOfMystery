@@ -1,16 +1,135 @@
 {
+    "hintsByKey": {
+        "EnterForest": [
+            {
+                "id": 0,
+                "name": "씨앗더미",
+                "code": "seeds",
+                "description": "수풀에 떨어져있다. 햄스터의 침냄새가 난다. 실종당시에 떨어틘 모양이다.",
+                "imagePath": "Hint/Images/Seeds",
+                "position": {
+                    "x": -323.3275,
+                    "y": 373.506
+                },
+                "preConditionCode": null
+            },
+            {
+                "id": 1,
+                "name": "여우의 털",
+                "code": "foxFur",
+                "description": "sss",
+                "imagePath": "Hint/Images/FoxFur",
+                "position": {
+                    "x": -13,
+                    "y": 279
+                },
+                "preConditionCode": null
+            },
+            {
+                "id": 2,
+                "name": "공작의 깃털",
+                "code": "peacockFeather",
+                "description": "A bright feather that seems out of place.",
+                "imagePath": "Hint/Images/PeacockFeather",
+                "position": {
+                    "x": 180,
+                    "y": 150
+                },
+                "preConditionCode": null
+            },
+            {
+                "id": 3,
+                "name": "염소의 발자국",
+                "code": "goatFootprint",
+                "description": "A bright feather that seems out of place.",
+                "imagePath": "Hint/Images/GoatFootprint",
+                "position": {
+                    "x": 200,
+                    "y": 150
+                },
+                "preConditionCode": null
+            }
+        ],
+        "FoxRoom": [
+            {
+                "id": 1,
+                "name": "사과",
+                "code": "apple",
+                "description": "sss",
+                "imagePath": "Hint/Images/foxRoom/apple",
+                "position": {
+                    "x": -13,
+                    "y": 279
+                },
+                "preConditionCode": null
+            },
+            {
+                "id": 2,
+                "name": "선물상자",
+                "code": "giftBox",
+                "description": "A bright feather that seems out of place.",
+                "imagePath": "Hint/Images/foxRoom/candle",
+                "position": {
+                    "x": 180,
+                    "y": 150
+                },
+                "preConditionCode": null
+            },
+            {
+                "id": 3,
+                "name": "편지",
+                "code": "letter",
+                "description": "희미하게 수풀에서 발견한 씨앗에 있던 햄스터의 냄새가 난다.",
+                "imagePath": "Hint/Images/foxRoom/letter",
+                "position": {
+                    "x": 200,
+                    "y": 150
+                },
+                "preConditionCode": "seeds"
+            }
+        ],
+        "PeacockRoom": [
+            {
+                "id": 1,
+                "name": "사과",
+                "code": "apple",
+                "description": "sss",
+                "imagePath": "Hint/Images/foxRoom/apple",
+                "position": {
+                    "x": -13,
+                    "y": 279
+                },
+                "preConditionCode": null
+            }
+        ],
+        "GoatRoom": [
+            {
+                "id": 1,
+                "name": "사과",
+                "code": "apple",
+                "description": "sss",
+                "imagePath": "Hint/Images/foxRoom/apple",
+                "position": {
+                    "x": -13,
+                    "y": 279
+                },
+                "preConditionCode": null
+            }
+        ]
+    },
     "hints": [
         {
             "id": 0,
             "name": "씨앗더미",
-            "code": "Seeds",
+            "code": "seeds",
             "description": "수풀에 떨어져있다. 햄스터의 침냄새가 난다. 실종당시에 떨어틘 모양이다.",
             "imagePath": "Hint/Images/Seeds",
             "position": {
                 "x": -323.3275,
                 "y": 373.506
             },
-            "trigger": "EnterForest"
+            "trigger": "EnterForest",
+            "preConditionCode": null
         },
         {
             "id": 1,
@@ -22,7 +141,8 @@
                 "x": -13,
                 "y": 279
             },
-            "trigger": "EnterForest"
+            "trigger": "EnterForest",
+            "preConditionCode": null
         },
         {
             "id": 2,
@@ -34,19 +154,60 @@
                 "x": 180,
                 "y": 150
             },
-            "trigger": "EnterForest"
+            "trigger": "EnterForest",
+            "preConditionCode": null
         },
         {
             "id": 3,
             "name": "염소의 발자국",
-            "code": "GoatFootprint",
+            "code": "goatFootprint",
             "description": "A bright feather that seems out of place.",
             "imagePath": "Hint/Images/GoatFootprint",
             "position": {
                 "x": 200,
                 "y": 150
             },
-            "trigger": "EnterForest"
+            "trigger": "EnterForest",
+            "preConditionCode": null
+        },
+        {
+            "id": 4,
+            "name": "사과",
+            "code": "apple",
+            "description": "sss",
+            "imagePath": "Hint/Images/foxRoom/apple",
+            "position": {
+                "x": -13,
+                "y": 279
+            },
+            "trigger": "FoxRoom",
+            "preConditionCode": null
+        },
+        {
+            "id": 5,
+            "name": "선물상자",
+            "code": "giftBox",
+            "description": "A bright feather that seems out of place.",
+            "imagePath": "Hint/Images/foxRoom/candle",
+            "position": {
+                "x": 180,
+                "y": 150
+            },
+            "trigger": "FoxRoom",
+            "preConditionCode": null
+        },
+        {
+            "id": 6,
+            "name": "편지",
+            "code": "letter",
+            "description": "희미하게 수풀에서 발견한 씨앗에 있던 햄스터의 냄새가 난다.",
+            "imagePath": "Hint/Images/foxRoom/letter",
+            "position": {
+                "x": 200,
+                "y": 150
+            },
+            "trigger": "FoxRoom",
+            "preConditionCode": "seeds"
         }
     ]
 }

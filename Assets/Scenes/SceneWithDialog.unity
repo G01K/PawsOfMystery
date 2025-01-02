@@ -250,7 +250,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 353994722}
+  - {fileID: 1671210453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -593,8 +595,7 @@ RectTransform:
   m_Children:
   - {fileID: 702572373}
   - {fileID: 1747083900}
-  - {fileID: 1671210453}
-  m_Father: {fileID: 809928068}
+  m_Father: {fileID: 127493079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1428,7 +1429,6 @@ RectTransform:
   m_Children:
   - {fileID: 970630008}
   - {fileID: 1589294906}
-  - {fileID: 353994722}
   - {fileID: 1539702946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1469,6 +1469,10 @@ MonoBehaviour:
   sniffButton: {fileID: 970630005}
   noteButton: {fileID: 1589294907}
   modalPanel: {fileID: 1539702945}
+  buttonTransform: {fileID: 970630008}
+  pulseSpeed: 1
+  maxScale: 1.2
+  minScale: 1
 --- !u!4 &929906066
 Transform:
   m_ObjectHideFlags: 0
@@ -1612,10 +1616,10 @@ RectTransform:
   - {fileID: 1132131523}
   m_Father: {fileID: 809928068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 373.82834, y: 123.94432}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -200, y: -75}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &989919417
 GameObject:
@@ -1990,6 +1994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hintData: []
+  hintsCreated: []
   hintPrefab: {fileID: 4276255923383978556, guid: a2c519125bb004f84baa73930785a763, type: 3}
   hintContainer: {fileID: 63566688}
 --- !u!1 &1295170539
@@ -2471,6 +2476,7 @@ MonoBehaviour:
   hintGrid: {fileID: 1173814033}
   descriptionText: {fileID: 464391065}
   closeButton: {fileID: 1295170541}
+  noteEntries: []
   hintPrefab: {fileID: 5025346295094441680, guid: 6a3372e1202444a45b1d9e389ef01410, type: 3}
 --- !u!1 &1543141411
 GameObject:
@@ -2716,10 +2722,10 @@ RectTransform:
   - {fileID: 1766040580}
   m_Father: {fileID: 809928068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 372.7742, y: 54.744324}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -200, y: -150}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1589294907
 MonoBehaviour:
@@ -2846,7 +2852,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 353994722}
+  m_Father: {fileID: 127493079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

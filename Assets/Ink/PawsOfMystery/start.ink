@@ -11,7 +11,27 @@ VAR currentSpeaker = Characters.해설
 LIST State = promiseCube
 
 
-LIST Inventory = (none), foxFur, peacockFeather, GoatFootprint, Seeds
+LIST Inventory = (none), seeds
+        , foxFur, peacockFeather, goatFootprint
+        , apple, giftBox, letter
+        , massageToSparrow, shoppingListMemo, myself
+
+VAR isGetAnyHintFoxRoom = false
+VAR isGetAnyHintPeacockRoom = false
+VAR isGetAnyHintGoatRoom = false
+
+VAR foundFoxFur = 0
+VAR foundPeacockFeather = 0
+VAR foundGoatFootprint = 0
+
+=== function getHintInFoxRoom()
+    ~ isGetAnyHintFoxRoom = true
+    
+=== function getHintInPeacockRoom()
+    ~ isGetAnyHintFoxRoom = true
+    
+=== function getHintInGoatRoom()
+    ~ isGetAnyHintFoxRoom = true
 
 === function add_item(item)
 	{ Inventory !? item :
@@ -32,8 +52,11 @@ LIST Inventory = (none), foxFur, peacockFeather, GoatFootprint, Seeds
 
 EXTERNAL DisplayHint(scene)
 === function DisplayHint(scene)
-    ~ return
-
+    DisplayHint + ' : ' + scene
+    
+EXTERNAL StartButtonAnimation()
+=== function StartButtonAnimation()
+    StartButtonAnimation
 
 
 === start ===
@@ -46,7 +69,7 @@ EXTERNAL DisplayHint(scene)
     (숨을 몰아쉬며) 너... 정말 한가하게 앉아있구나.
 
     * 테스트 푱
-        -> sniff_around
+        -> goto_forest.sniff_around
     * 한가하다니 무례하네, 무슨 일인데 쭈? 
         -> ask_problem
 

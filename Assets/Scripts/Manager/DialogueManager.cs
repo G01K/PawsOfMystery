@@ -43,18 +43,18 @@ public class DialogueManager : MonoBehaviour
     private Queue<GameObject> choicePool = new Queue<GameObject>();
 
     [Header("타이핑 애니메이션")]
-    public float typingSpeed = 0.03f;
+    public float typingSpeed = 0.01f;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
+
+    private string knotName = "";
 
 
     void Start()
     {
-
         init();
-        initBindFnc();
+        InkManager.Instance.initBindFnc();
         DisplayNextLine();
-
     }
 
     void init()
@@ -71,38 +71,6 @@ public class DialogueManager : MonoBehaviour
         InitializeSpeakerContainers();
     }
 
-    void initBindFnc()
-    {
-        // External Function 연결
-        story.BindExternalFunction("DisplayHint", (string scene) =>
-        {
-            Debug.Log("DisplayHintDisplayHintDisplayHintDisplayHint");
-
-            DisplayHint(scene);
-        });
-    }
-
-    void DisplayHint(string scene)
-    {
-        Debug.Log(scene);
-
-        if (scene == "sniff_around")
-        {
-            List<Hint> hints = HintManager.Instance.GetHints("EnterForest");
-            if (hints != null)
-            {
-                foreach (Hint hint in hints)
-                {
-                    HintManager.Instance.CreateHintObject(hint);
-                }
-            }
-
-            // dlf
-            PauseStory();
-
-            // ToDo : 다이얼로그박스 숨기기
-        }
-    }
 
     void OnEnable()
     {
@@ -113,6 +81,7 @@ public class DialogueManager : MonoBehaviour
     {
         InputManager.OnMouseClick -= HandleMouseClick;
     }
+
     public void PauseStory()
     {
         dialogBox.SetActive(false);
@@ -150,18 +119,47 @@ public class DialogueManager : MonoBehaviour
             { "해설", npcContainer }
         };
     }
+
     public void DisplayNextLine(string speakerName = "")
     {
+        // 스토리가 일시정지된 경우 아무것도 하지 않음
         if (isPaused) return;
 
+        // 대화 상자가 비활성화되어 있으면 활성화
+        if (!dialogBox.activeSelf)
+        {
+            dialogBox.SetActive(true);
+        }
+
+        // 이전 선택지가 있는경우 비활성화
+        ClearChoices();
+
+        // 스토리가 계속될 수 있는 경우
         if (story.canContinue)
         {
-            string text = story.Continue().Trim();
-            HandleDialogue(text, speakerName);
+            string text = story.Continue().Trim(); // 다음 텍스트 가져오기
+            HandleDialogue(text, speakerName);    // 대화 처리
         }
+        // 스토리가 더 이상 진행할 수 없지만 선택지가 있는 경우
         else if (story.currentChoices.Count > 0)
         {
-            DisplayChoices();
+            DisplayChoices(); // 선택지 표시
+        }
+        else
+        {
+            Debug.Log("스토리가 종료되었거나 진행할 내용이 없습니다.");
+        }
+
+        // 현재 노드 이름을 가져오기
+        string knotName = InkManager.Instance.GetKnotName();
+
+        if (!this.knotName.Equals(knotName))
+        {
+            this.knotName = knotName;
+            // 노드가 바뀔때 마다 힌트 지우기(화면 전환?)
+            HintManager.Instance.removeAllHint();
+
+            Debug.Log("knotName가 변경됨 : " + knotName);
         }
     }
 
@@ -170,6 +168,7 @@ public class DialogueManager : MonoBehaviour
         string speaker = (speakerName == "주인공") ? speakerName : story.variablesState["currentSpeaker"]?.ToString();
 
         HideAllContainers();
+        Debug.Log($"인물 : {speaker} /n 대사 : {text}");
 
         if (speakerContainers.TryGetValue(speaker, out GameObject targetContainer))
         {
@@ -180,11 +179,16 @@ public class DialogueManager : MonoBehaviour
             ShowContainer(npcContainer, text, speaker);
         }
     }
-
     void ShowContainer(GameObject container, string text, string speakerName = "")
     {
-        container.SetActive(true);
+        // NameText 설정
+        TMP_Text nameTextComponent = container.transform.Find("NameText")?.GetComponent<TMP_Text>();
+        if (nameTextComponent != null && nameTextComponent.text != speakerName)
+        {
+            nameTextComponent.text = speakerName;
+        }
 
+        // DialogueText 설정
         TMP_Text dialogueTextComponent = container.transform.Find("DialogueText")?.GetComponent<TMP_Text>();
         if (dialogueTextComponent != null && dialogueTextComponent.text != text)
         {
@@ -192,13 +196,9 @@ public class DialogueManager : MonoBehaviour
             {
                 StopCoroutine(typingCoroutine);
             }
-            typingCoroutine = StartCoroutine(TypeText(dialogueTextComponent, text));
-        }
 
-        TMP_Text nameTextComponent = container.transform.Find("NameText")?.GetComponent<TMP_Text>();
-        if (nameTextComponent != null && nameTextComponent.text != speakerName)
-        {
-            nameTextComponent.text = speakerName;
+            // DialogBox 활성화 및 코루틴 실행
+            StartCoroutine(ActivateAndStartCoroutine(container, dialogueTextComponent, text));
         }
     }
 
@@ -207,19 +207,24 @@ public class DialogueManager : MonoBehaviour
         foreach (var container in speakerContainers.Values)
         {
             container.SetActive(false);
+
         }
     }
 
     IEnumerator TypeText(TMP_Text textComponent, string text)
     {
         isTyping = true;
-        textComponent.text = "";
-
-        for (int i = 0; i < text.Length; i += 2) // 2글자씩 출력
+        textComponent.text = ""; // 초기화
+        for (int i = 0; i <= text.Length; i++) // `i <= text.Length`로 수정
         {
-            textComponent.text = text.Substring(0, i + 1);
-            yield return new WaitForSecondsRealtime(typingSpeed);
+            int lengthToShow = Mathf.Min(i, text.Length); // 길이 초과 방지
+            textComponent.text = text.Substring(0, lengthToShow); // 현재까지 출력할 텍스트
+
+            yield return new WaitForSecondsRealtime(typingSpeed); // 대기
         }
+
+        // 최종 텍스트 보장
+        textComponent.text = text; // 전체 텍스트 설정
 
         isTyping = false;
 
@@ -227,6 +232,7 @@ public class DialogueManager : MonoBehaviour
         {
             DisplayChoices();
         }
+
     }
 
     void OnChoiceSelected(Choice choice)
@@ -274,8 +280,22 @@ public class DialogueManager : MonoBehaviour
 
         foreach (Choice choice in story.currentChoices)
         {
-            //테스트코드
-            if (!"G1".Equals(choice.text)) CreateChoice(choice.text, () => OnChoiceSelected(choice));
+            //테스트코드 start
+            if (!string.IsNullOrEmpty(choice.text))
+            {
+                Debug.Log($"choice.text is {choice.text}");
+
+                string[] firstWord = choice.text.Split(" ");
+                if (!"G1".Equals(firstWord[0]))
+                {
+                    CreateChoice(choice.text, () => OnChoiceSelected(choice));
+                }
+            }
+
+            //if (!"G1".Equals(choice.text)) CreateChoice(choice.text, () => OnChoiceSelected(choice));
+            //테스트코드 end 
+
+            //CreateChoice(choice.text, () => OnChoiceSelected(choice));
         }
     }
 
@@ -311,5 +331,16 @@ public class DialogueManager : MonoBehaviour
             choicePool.Enqueue(choice);
         }
         activeChoices.Clear();
+    }
+    IEnumerator ActivateAndStartCoroutine(GameObject container, TMP_Text dialogueTextComponent, string text)
+    {
+        // DialogBox를 활성화
+        container.SetActive(true);
+
+        // 한 프레임 대기 (DialogBox가 완전히 활성화될 때까지)
+        yield return null;
+        //  Debug.Log($"Before ShowContainer - DialogBox activeSelf: {dialogBox.activeSelf}, activeInHierarchy: {dialogBox.activeInHierarchy}");
+        // 텍스트 출력 코루틴 실행
+        typingCoroutine = StartCoroutine(TypeText(dialogueTextComponent, text));
     }
 }
